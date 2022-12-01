@@ -49,29 +49,16 @@ public class RightHighJunction extends LinearOpMode
         telemetry.addData("heading", poseEstimate.getHeading());
         telemetry.update();
 
+        book.RightHighJunction(drive.getPoseEstimate());
+        book.RHJStacking(book.rightHighJunction.end());
+
         waitForStart();
 
-        book.RightHighJunction(drive.getPoseEstimate());
         drive.followTrajectorySequence(book.rightHighJunction);
-
-        //
-        book.RHJStacking(drive.getPoseEstimate());
         drive.followTrajectorySequence(book.rHJStacking);
-
-        //
-        book.RHJStacking(drive.getPoseEstimate());
         drive.followTrajectorySequence(book.rHJStacking);
-
-        //
-        book.RHJStacking(drive.getPoseEstimate());
         drive.followTrajectorySequence(book.rHJStacking);
-
-        //
-        book.RHJStacking(drive.getPoseEstimate());
         drive.followTrajectorySequence(book.rHJStacking);
-
-        //
-        book.RHJStacking(drive.getPoseEstimate());
         drive.followTrajectorySequence(book.rHJStacking);
 
         sleep(10000);

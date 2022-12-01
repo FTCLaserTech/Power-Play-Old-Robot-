@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 //@Disabled
 @Config
 @Autonomous(group = "a")
-public class ColorSensorTest extends LinearOpMode
+public class LeftHighJunction extends LinearOpMode
 {
 
     @Override
@@ -49,28 +49,17 @@ public class ColorSensorTest extends LinearOpMode
         telemetry.addData("heading", poseEstimate.getHeading());
         telemetry.update();
 
+        book.LeftHighJunction(drive.getPoseEstimate());
+        book.LHJStacking(book.leftHighJunction.end());
+
         waitForStart();
 
-        /*
-        // start motion
-        book.ColorSensorTest(drive.getPoseEstimate());
-        drive.followTrajectorySequence(book.colorSensorTest);
-
-        drive.setWeightedDrivePower
-                (new Pose2d(0.5, 0.0, 0));
-        while (extras.testColorSensor.red()<extras.testColorSensor.blue())
-        {
-            drive.update();
-        }
-
-        drive.setWeightedDrivePower
-                (new Pose2d(0.0, 0.0, 0));
-
-        // stop motion
-        //book.ColorSensorTest(drive.getPoseEstimate());
-        //drive.followTrajectorySequence(book.colorSensorTest);
-
-         */
+        drive.followTrajectorySequence(book.leftHighJunction);
+        drive.followTrajectorySequence(book.lHJStacking);
+        drive.followTrajectorySequence(book.lHJStacking);
+        drive.followTrajectorySequence(book.lHJStacking);
+        drive.followTrajectorySequence(book.lHJStacking);
+        drive.followTrajectorySequence(book.lHJStacking);
 
         sleep(10000);
     }
