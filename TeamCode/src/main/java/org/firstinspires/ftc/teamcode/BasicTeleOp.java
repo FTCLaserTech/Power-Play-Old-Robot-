@@ -60,6 +60,11 @@ public class BasicTeleOp extends LinearOpMode
 
         int armPosition = 0;
 
+        double elevMultMin = 0.5;
+        double elevMult = 0;
+        double elevHeightMax = 3275;
+        double slope;
+
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         extras.wristClose();
 
@@ -67,20 +72,27 @@ public class BasicTeleOp extends LinearOpMode
 
         while (!isStopRequested())
         {
+            slope = -elevMultMin / elevHeightMax;
+            elevMult = slope * extras.arm.getCurrentPosition() + 1;
+
             // changes the speed of the robot based on bumpers that are held down
             double powerMultiplier = 1;
             if (gamepad1.right_bumper == true)
             {
-                powerMultiplier = 0.6;
+                powerMultiplier = 0.6 * elevMult;
             }
             else if (gamepad1.left_bumper == true)
             {
-                powerMultiplier = 0.4;
+                powerMultiplier = 0.4 * elevMult;
             }
             else
             {
-                powerMultiplier = 0.75;
+                powerMultiplier = 0.75 * elevMult;
             }
+
+
+
+
 
             // this is the roadrunner driving code
             adjustedAngle = extras.adjustAngleForDriverPosition(drive.getRawExternalHeading(), ExtraOpModeFunctions.RobotStartPosition.STRAIGHT);
