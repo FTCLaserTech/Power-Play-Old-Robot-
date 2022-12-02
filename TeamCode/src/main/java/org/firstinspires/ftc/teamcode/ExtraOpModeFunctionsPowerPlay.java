@@ -322,7 +322,8 @@ public class ExtraOpModeFunctionsPowerPlay
                 // grab the image
                 Bitmap bm = Bitmap.createBitmap(imageRGB565.getWidth(), imageRGB565.getHeight(), Bitmap.Config.RGB_565);
                 bm.copyPixelsFromBuffer(imageRGB565.getPixels());
-                if (fieldSide == FieldSide.RED)
+                //if (fieldSide == FieldSide.BLUE)
+                if (true)
                 {
                     // create some variables to index the pixels
                     int xMidMin = 0;
@@ -409,24 +410,24 @@ public class ExtraOpModeFunctionsPowerPlay
                     }
 
 
-                    if (numGreen >= 50)
+                    if (numGreen >= 10)
                     {
                         localLop.telemetry.addData("Green", numGreen);
                         markerPosition = MarkerPosition.MIDDLE;
-
-                        if (numRed >= 50)
-                        {
-                            localLop.telemetry.addData("Red", numRed);
-                            markerPosition = MarkerPosition.MIDDLE;
-
-                            if (numBlue >= 50)
-                            {
-                                localLop.telemetry.addData("Blue", numBlue);
-                                markerPosition = MarkerPosition.MIDDLE;
-
-                            }
-                        }
                     }
+                    if (numRed >= 10)
+                    {
+                        localLop.telemetry.addData("Red", numRed);
+                        markerPosition = MarkerPosition.MIDDLE;
+                    }
+                    if (numBlue >= 10)
+                    {
+                        localLop.telemetry.addData("Blue", numBlue);
+                        markerPosition = MarkerPosition.MIDDLE;
+
+                    }
+
+
                 /*
                 {
                     // create some variables to index the pixels
