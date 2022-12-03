@@ -496,10 +496,10 @@ public class ExtraOpModeFunctions
                     // Locations of where to look for marker
 
 
-                    xMidMin = (int) (((2.85) * 480) / 4);
-                    xMidMax = (int) (((3.4) * 480) / 4);
-                    yMidMin = (int) (((2) * 640) / 5.5);
-                    yMidMax = (int) (((2.7) * 640) / 5.5);
+                    xMidMin = (int) (((2.9) * 480) / 4);
+                    xMidMax = (int) (((3.1) * 480) / 4);
+                    yMidMin = (int) (((2.6) * 640) / 5.4);
+                    yMidMax = (int) (((2.8) * 640) / 5.4);
                     //ypix = ((y1MidMin+y1MidMax)/2);
                     //xpix = ((xMidMin+xMidMax)/2);
 
@@ -512,54 +512,40 @@ public class ExtraOpModeFunctions
                         {
                             // yellow in RGB is 0xFFFF00
                             pixel = bm.getPixel(y, x);
-                            localLop.telemetry.addData("Pixel %8x", pixel);
-                            localLop.sleep(500);
+                            //localLop.telemetry.addData("Pixel: ", "%8x", pixel);
+                            //localLop.telemetry.update();
+                            //localLop.sleep(500);
 
-                            if ((pixel & 0x000000ff) < 0x00000054)
+                            // Count red pixels
+                            if ((pixel & 0x00ff0000) > 0x00800000)  //red
                             {
-                                if ((pixel & 0x00ff0000) < 0x00370000)
+                                if ((pixel & 0x0000ff00) < 0x00005000)  //green
                                 {
-                                    if ((pixel & 0x0000ff00) > 0x0000a300)
-                                    {
-                                        numGreen++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    for (int y = yMidMin; y <= yMidMax; y++)
-                    {
-                        for (int x = xMidMin; x <= xMidMax; x++)
-                        {
-                            // yellow in RGB is 0xFFFF00
-                            pixel = bm.getPixel(y, x);
-
-
-                            if ((pixel & 0x000000ff) < 0x00000012)
-                            {
-                                if ((pixel & 0x00ff0000) < 0x00f20000)
-                                {
-                                    if ((pixel & 0x0000ff00) > 0x00000200)
+                                    if ((pixel & 0x000000ff) < 0x0000a50)  //blue
                                     {
                                         numRed++;
                                     }
                                 }
                             }
-                        }
-                    }
-                    for (int y = yMidMin; y <= yMidMax; y++)
-                    {
-                        for (int x = xMidMin; x <= xMidMax; x++)
-                        {
-                            // yellow in RGB is 0xFFFF00
-                            pixel = bm.getPixel(y, x);
 
-
-                            if ((pixel & 0x000000ff) < 0x0000004d)
+                            // Count green pixels
+                            if ((pixel & 0x00ff0000) < 0x00600000)  //red
                             {
-                                if ((pixel & 0x00ff0000) < 0x00080000)
+                                if ((pixel & 0x0000ff00) > 0x00005500)  //green
                                 {
-                                    if ((pixel & 0x0000ff00) > 0x00001700)
+                                    if ((pixel & 0x000000ff) < 0x0000a60)  //blue
+                                    {
+                                        numGreen++;
+                                    }
+                                }
+                            }
+
+                            // Count blue pixels
+                            if ((pixel & 0x00ff0000) < 0x00400000)  //red
+                            {
+                                if ((pixel & 0x0000ff00) < 0x00006000)  //green
+                                {
+                                    if ((pixel & 0x000000ff) > 0x00000070)  //blue
                                     {
                                         numBlue++;
                                     }
@@ -568,147 +554,30 @@ public class ExtraOpModeFunctions
                         }
                     }
 
-
-
-
-                    if (numGreen >= 50)
+                    if (numGreen >= 100)
                     {
                         localLop.telemetry.addData("Green", numGreen);
                         markerPosition = MarkerPosition.MIDDLE;
                     }
-                    if (numRed >= 50)
+                    else if (numRed >= 100)
                     {
                         localLop.telemetry.addData("Red", numRed);
                         markerPosition = MarkerPosition.MIDDLE;
                     }
 
-                    if (numBlue >= 50)
+                    else if (numBlue >= 100)
                     {
                         localLop.telemetry.addData("Blue", numBlue);
                         markerPosition = MarkerPosition.MIDDLE;
                     }
 
-
-                /*
-                {
-                    // create some variables to index the pixels
-                    int xMidMinBlue = 0;
-                    int xMidMaxBlue = 0;
-                    int x2LeftMinBlue = 0;
-                    int x2LeftMaxBlue = 0;
-                    int y2LeftMinBlue = 0;
-                    int y2LeftMaxBlue = 0;
-                    int y1MidMinBlue = 0;
-                    int y1MidMaxBlue = 0;
-
-
-                    //int xpix = 0;
-                    //int ypix = 0;
-
-                    // Locations of where to look for marker
-
-                    //Right in this case
-                    xMidMinBlue = (int) (((2.3) * 480) / 4);
-                    xMidMaxBlue = (int) (((3) * 480) / 4);
-                    y1MidMinBlue = (int) (((1.9) * 640) / 5.5);
-                    y1MidMaxBlue = (int) (((2.7) * 640) / 5.5);
-                    //ypix = ((y1MidMin+y1MidMax)/2);
-                    //xpix = ((xMidMin+xMidMax)/2);
-
-
-                    //Mid in this case
-                    x2LeftMinBlue = (int) (((0.5) * 480) / 4);
-                    x2LeftMaxBlue = (int) (((1.2) * 480) / 4);
-                    y2LeftMinBlue = (int) (((2) * 640) / 5.5);
-                    y2LeftMaxBlue = (int) (((2.8) * 640) / 5.5);
-
-
-                    int pixel = 0;
-
-                    for (int y = y1MidMinBlue; y <= y1MidMaxBlue; y++) {
-                        for (int x = xMidMinBlue; x <= xMidMaxBlue; x++) {
-                            // yellow in RGB is 0xFFFF00
-                            pixel = bm.getPixel(y, x);
-
-
-                            if ((pixel & 0x000000ff) < 0x0000005A) {
-                                if ((pixel & 0x00ff0000) < 0x005A0000) {
-                                    if ((pixel & 0x0000ff00) > 0x00005A00) {
-                                        numGreenMid++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    for (int y = y2LeftMinBlue; y <= y2LeftMaxBlue; y++) {
-                        for (int x = x2LeftMinBlue; x <= x2LeftMaxBlue; x++) {
-                            // yellow in RGB is 0xFFFF00
-                            pixel = bm.getPixel(y, x);
-
-
-                            if ((pixel & 0x000000ff) < 0x0000005A) {
-                                if ((pixel & 0x00ff0000) < 0x005A0000) {
-                                    if ((pixel & 0x0000ff00) > 0x00005A00) {
-                                        numGreenLeft++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-
-                    if (numGreenMid >= 50) {
-                        localLop.telemetry.addData("Right", numGreenRight);
-                        markerPosition = MarkerPosition.RIGHT;
-                    } else if (numGreenLeft >= 50) {
-                        localLop.telemetry.addData("Mid", numGreenLeft);
-                        markerPosition = MarkerPosition.MIDDLE;
-                    } else {
-                        localLop.telemetry.addData("Left", 0);
-                        markerPosition = MarkerPosition.LEFT;
-                    }
                 }
-
-
-                */
-
-                        // yellow in RGB is 0xFFFF00
-                        int color2 = bm.getPixel(0, 0);
-                        //int color1 = bm.getPixel(1279, 719);
-
-
-
-                     //localLop.telemetry.addData("C2: ", "%x", color2);
-                        //localLop.telemetry.addData("Red: ", "%d", ((color2 & 0x00ff0000) >> 16));
-                        //localLop.telemetry.addData("Green: ", "%d", ((color2 & 0x0000ff00) >> 8));
-                        //localLop.telemetry.addData("Blue: ", "%d", ((color2 & 0x0000000ff) >> 0));
-                        //localLop.telemetry.addData("C1: ", "%x", color1);
-                        //localLop.telemetry.addData("Height ", bm.getHeight());
-                        //localLop.telemetry.addData("Width ", bm.getWidth());
-
-                    //localLop.telemetry.update();
-
-                        //linearOpMode.sleep(200);
-
-                    //else
-                    {
-                        // nearOpMode.telemetry.addData("No image: ", brickPosition);
-                        //localLop.telemetry.update();
-                    }
-                }
-
-                //catch(InterruptedException exc)
-                //{
-                //    ;
-                //}
             }
 
-            localLop.telemetry.addData("Blue_", numBlue);
-            localLop.telemetry.addData("Green_", numGreen);
             localLop.telemetry.addData("Red_", numRed);
+            localLop.telemetry.addData("Green_", numGreen);
+            localLop.telemetry.addData("Blue_", numBlue);
             localLop.telemetry.update();
-
 
         }
         catch(InterruptedException exc)
